@@ -2,9 +2,16 @@
 // Emotion Styles
 
 import { css } from "@emotion/react";
+import { em } from "framer-motion/client";
 
 
 // ----------------------
+
+export const wrapperContainer = css`
+  background: #e7519d;
+
+`;
+
 export const container = css`
   display: flex;
   flex-direction: column;
@@ -13,7 +20,7 @@ export const container = css`
   max-width: 1100px;
   margin: 0 auto;
   perspective: 1200px;
-  height: 600px;
+  height: 700px;
   justify-content: center;
 `;
 
@@ -87,15 +94,23 @@ export const dotsStyle = css`
   justify-content: center;
   gap: 12px;
   margin-top: 30px;
+  align-items: center;
   .dot {
-    width: 5px;
-    height: 5px;
+    width: 8px;
+    height: 8px;
+    background: transparent;
+    border: 1px solid white;
     border-radius: 50%;
-    background-color: #aaa;
+    transition: all 0.35s ease;
+    box-sizing: border-box;
     cursor: pointer;
-    transition: all 0.4s ease;
   }
+
   .dot.active {
-    background-color: #333;
+    width: 32px; /* expand smoothly */
+    height: 2px; /* shrink smoothly */
+    background: white;
+    border: none;
+    border-radius: 6px; /* keep it rounded */
   }
 `;

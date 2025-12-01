@@ -9,6 +9,7 @@ import {
   sliderWrapper,
   tag,
   title,
+  wrapperContainer,
 } from "./StackedSliderCss";
 
 const layers = [
@@ -116,22 +117,57 @@ export const StackedSlider = () => {
   };
 
   const updateDots = () => {
-    if (!dotsRef.current) return;
-    const topOriginalIndex = Number(cardsRef.current[0]?.dataset.index);
-    Array.from(dotsRef.current.children).forEach((dot, i) => {
-      const d = dot as HTMLDivElement;
-      d.style.transition = "all 0.3s ease";
-      if (i === topOriginalIndex) {
-        d.classList.add("active");
-        d.style.transform = "scale(1.8)";
-        d.style.opacity = "1";
-      } else {
-        d.classList.remove("active");
-        d.style.transform = "scale(1)";
-        d.style.opacity = "0.5";
-      }
-    });
-  };
+  if (!dotsRef.current) return;
+
+  const activeIndex = Number(cardsRef.current[0]?.dataset.index);
+
+  Array.from(dotsRef.current.children).forEach((dot, i) => {
+    const d = dot as HTMLDivElement;
+
+    if (i === activeIndex) {
+      // ───────────────────────────────
+      // ACTIVE DOT → circle to line
+      // ───────────────────────────────
+      d.classList.add("active");
+
+      // Stage 1: circle → thin bar
+      d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
+      d.style.height = "2px";
+      d.style.borderRadius = "4px";
+      d.style.background = "white";
+      d.style.border = "none";
+
+      // Stage 2: expand width outward (parallel timing)
+      requestAnimationFrame(() => {
+        d.style.transition = "width 0.35s ease";
+        d.style.width = "32px";
+      });
+
+    } else {
+      // ───────────────────────────────
+      // PREVIOUS ACTIVE DOT → line to circle
+      // reverse animation running SAME TIME
+      // ───────────────────────────────
+      d.classList.remove("active");
+
+      // Stage 1: shrink width
+      d.style.transition = "width 0.35s ease";
+      d.style.width = "8px";
+
+      // Stage 2: AFTER width shrink begins, bring height back
+      requestAnimationFrame(() => {
+        d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
+        d.style.height = "8px";
+        d.style.borderRadius = "50%";
+        d.style.background = "transparent";
+        d.style.border = "1px solid white";
+      });
+    }
+  });
+};
+
+
+
 
   const disablePointerEvents = (state: boolean) => {
     if (!sliderRef.current || !dotsRef.current) return;
@@ -222,20 +258,35 @@ export const StackedSlider = () => {
     }
 
     // Animate dots dynamically while dragging
-    Array.from(dotsRef.current?.children || []).forEach((dot, i) => {
-      const d = dot as HTMLDivElement;
-      d.style.transition = "none";
-      if (i === 0) {
-        d.style.transform = `scale(${1.8 - p * 0.8})`;
-        d.style.opacity = `${1 - p * 0.5}`;
-      } else if (i === 1) {
-        d.style.transform = `scale(${1 + p * 0.8})`;
-        d.style.opacity = `${0.5 + p * 0.5}`;
-      } else if (i === 2) {
-        d.style.transform = `scale(${0.6 + p * 0.4})`;
-        d.style.opacity = `${0.3 + p * 0.2}`;
+    if (dotsRef.current) {
+      const dots = dotsRef.current.children;
+
+      const total = dots.length;
+      if (total > 0) {
+        const topIndex = Number(cardsRef.current[0].dataset.index);
+        const nextIndex = (topIndex + 1) % total;
+        const thirdIndex = (topIndex + 2) % total;
+
+        Array.from(dots).forEach((dot, i) => {
+          const d = dot as HTMLDivElement;
+          d.style.transition = "none";
+
+          if (i === topIndex) {
+            // d.style.transform = `scale(${1.8 - p * 0.8})`;
+            // d.style.opacity = `${1 - p * 0.5}`;
+          } else if (i === nextIndex) {
+            // d.style.transform = `scale(${1 + p * 0.8})`;
+            // d.style.opacity = `${0.5 + p * 0.5}`;
+          } else if (i === thirdIndex) {
+            // d.style.transform = `scale(${0.6 + p * 0.4})`;
+            // d.style.opacity = `${0.3 + p * 0.2}`;
+          } else {
+            // d.style.transform = "scale(1)";
+            // d.style.opacity = "0.4";
+          }
+        });
       }
-    });
+    }
 
     e.preventDefault();
   };
@@ -309,21 +360,23 @@ export const StackedSlider = () => {
   }, []);
 
   return (
-    <div css={container}>
-      <div css={sliderWrapper} ref={sliderRef}>
-        {images.map((img, idx) => (
-          <div key={idx} css={card(img.src)}>
-            <div css={overlay}>
-              <span css={tag}>{img.tag}</span>
-              <h2 css={title}>{img.title}</h2>
-              <a css={btn} href="#">
-                Read More
-              </a>
+    <div css={wrapperContainer}>
+      <div css={container}>
+        <div css={sliderWrapper} ref={sliderRef}>
+          {images.map((img, idx) => (
+            <div key={idx} css={card(img.src)}>
+              <div css={overlay}>
+                <span css={tag}>{img.tag}</span>
+                <h2 css={title}>{img.title}</h2>
+                <a css={btn} href="#">
+                  Read More
+                </a>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+        <div css={dotsStyle} ref={dotsRef}></div>
       </div>
-      <div css={dotsStyle} ref={dotsRef}></div>
     </div>
   );
 };
