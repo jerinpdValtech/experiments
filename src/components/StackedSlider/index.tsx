@@ -222,20 +222,35 @@ export const StackedSlider = () => {
     }
 
     // Animate dots dynamically while dragging
-    Array.from(dotsRef.current?.children || []).forEach((dot, i) => {
-      const d = dot as HTMLDivElement;
-      d.style.transition = "none";
-      if (i === 0) {
-        d.style.transform = `scale(${1.8 - p * 0.8})`;
-        d.style.opacity = `${1 - p * 0.5}`;
-      } else if (i === 1) {
-        d.style.transform = `scale(${1 + p * 0.8})`;
-        d.style.opacity = `${0.5 + p * 0.5}`;
-      } else if (i === 2) {
-        d.style.transform = `scale(${0.6 + p * 0.4})`;
-        d.style.opacity = `${0.3 + p * 0.2}`;
+    if (dotsRef.current) {
+      const dots = dotsRef.current.children;
+
+      const total = dots.length;
+      if (total > 0) {
+        const topIndex = Number(cardsRef.current[0].dataset.index);
+        const nextIndex = (topIndex + 1) % total;
+        const thirdIndex = (topIndex + 2) % total;
+
+        Array.from(dots).forEach((dot, i) => {
+          const d = dot as HTMLDivElement;
+          d.style.transition = "none";
+
+          if (i === topIndex) {
+            d.style.transform = `scale(${1.8 - p * 0.8})`;
+            d.style.opacity = `${1 - p * 0.5}`;
+          } else if (i === nextIndex) {
+            d.style.transform = `scale(${1 + p * 0.8})`;
+            d.style.opacity = `${0.5 + p * 0.5}`;
+          } else if (i === thirdIndex) {
+            d.style.transform = `scale(${0.6 + p * 0.4})`;
+            d.style.opacity = `${0.3 + p * 0.2}`;
+          } else {
+            d.style.transform = "scale(1)";
+            d.style.opacity = "0.4";
+          }
+        });
       }
-    });
+    }
 
     e.preventDefault();
   };
