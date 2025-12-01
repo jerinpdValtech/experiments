@@ -1,0 +1,46 @@
+[
+  {
+    "id": "north-zone",
+    "name": "North Zone Area",
+    "color": "red",
+    "coordinates": [
+      [900, 300],
+      [800, 420],
+      [600, 420],
+      [600, 200]
+    ],
+    "cabanas": [
+      { "id": "cab1", "name": "Cabana 1", "position": [780, 300] },
+      { "id": "cab2", "name": "Cabana 2", "position": [800, 300] }
+    ]
+  },{
+    "id": "wave-zone",
+    "name": "Wave Zone",
+    "color": "blue",
+    "coordinates": [
+      [900, 900],
+      [920, 1200],
+      [680, 1300],
+      [600, 800]
+    ],
+    "cabanas": [
+      { "id": "cab3", "name": "Cabana 3", "position": [800, 1100], "capacity": 4, "price": 1000 },
+      { "id": "cab4", "name": "Cabana 4", "position": [800, 1000], "capacity": 2, "price": 800 }
+    ]
+  },
+  {
+    "id": "kids-area",
+    "name": "Kids Pool Area",
+    "color": "green",
+    "coordinates": [
+      [400, 1000],
+      [400, 1350],
+      [120, 1250],
+      [120, 900]
+    ],
+    "cabanas": [
+      { "id": "cab5", "name": "Cabana 5", "position": [250, 1150], "capacity": 3, "price": 700 },
+      { "id": "cab6", "name": "Cabana 6", "position": [250, 1120], "capacity": 4, "price": 900 }
+    ]
+  }
+]
