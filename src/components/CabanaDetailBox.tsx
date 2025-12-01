@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
 import { motion } from "framer-motion";
-import { Cabana } from "./types"; // ✅ import shared type
+import { Cabana } from "@/utils/types";
 
 interface CabanaDetailBoxProps {
   selectedCabana: Cabana | null;
@@ -20,7 +20,7 @@ export default function CabanaDetailBox({
 
   const updatePosition = () => {
     if (!selectedCabana) return;
-    const point = map.latLngToContainerPoint(selectedCabana.position as any);
+    const point = map.latLngToContainerPoint(selectedCabana.position);
     setPosition({ x: point.x, y: point.y });
   };
 

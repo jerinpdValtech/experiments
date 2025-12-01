@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { MapContainer, ImageOverlay, Marker, Tooltip, useMap, Polygon } from "react-leaflet";
 import L from "leaflet";
-import type { LatLngExpression } from "leaflet";
 import { motion } from "framer-motion";
 
 const parkImageUrl = "/images/park-map.png";
@@ -35,6 +36,7 @@ interface Area {
 
 import areasData from '@/data/areas.json';
 import CabanaDetailBox from "./CabanaDetailBox";
+import { LeafletMouseEvent } from "leaflet";
 const areas: Area[] = areasData as unknown as Area[];
 
 function FitBounds({ bounds }: { bounds: [[number, number], [number, number]] }) {
@@ -50,7 +52,7 @@ function ZoomToBounds({ bounds, minZoom }: { bounds: LatLngPoint[]; minZoom?: nu
   useEffect(() => {
     const targetMin = minZoom ?? CABANA_ZOOM_THRESHOLD;
     try {
-      const latBounds = L.latLngBounds(bounds as any);
+      const latBounds = L.latLngBounds(bounds);
       const center = latBounds.getCenter();
       // Fly to the center and ensure the zoom level reaches targetMin so cabanas become visible
       map.flyTo([center.lat, center.lng], targetMin, { animate: true, duration: 0.8 });
@@ -111,9 +113,8 @@ export default function CabanaMap() {
       style={{ height: "600px" }}
     >
       <MapContainer
-        {...({ bounds: imageBounds, crs: L.CRS.Simple } as any)}
+        {...({ bounds: imageBounds, crs: L.CRS.Simple })}
         style={{ height: "100%", width: "100%" }}
-        minZoom={-1}
       >
         <FitBounds bounds={imageBounds} />
         <MapObserver
@@ -175,15 +176,14 @@ export default function CabanaMap() {
         {selectedArea &&
           showCabanas &&
           selectedArea.cabanas.map((cabana) => (
-            // @ts-ignore for custom divIcon typing
             <Marker
               key={cabana.id}
-              position={cabana.position as unknown as LatLngExpression}
-              icon={L.divIcon({
+              position={cabana.position}
+              /* icon={L.divIcon({
                 html: `<div style="background:${
                   selectedCabana?.id === cabana.id ? "gold" : "white"
                 }; border:2px solid black; border-radius:50%; width:20px; height:20px; cursor:pointer; pointer-events:auto"></div>`,
-              })}
+              })} */
               eventHandlers={{
                 click: (e: any) => {
                   // stop map from also handling the click
