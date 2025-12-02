@@ -7,9 +7,12 @@ import { em } from "framer-motion/client";
 
 // ----------------------
 
+
 export const wrapperContainer = css`
   background: #e7519d;
-
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
 `;
 
 export const container = css`
@@ -28,6 +31,7 @@ export const sliderWrapper = css`
   position: relative;
   width: 100%;
   height: 450px;
+  overflow: hidden;
 `;
 
 export const card = (bg: string) => css`
