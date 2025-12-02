@@ -158,6 +158,7 @@ const StackedSliderMobile = () => {
   startXRef.current =
    (e as PointerEvent).clientX || (e as TouchEvent).touches[0].clientX;
   currentXRef.current = 0;
+  document.body.style.overflow = "hidden";
   e.preventDefault();
  };
  const onMove = (e: PointerEvent | TouchEvent) => {
