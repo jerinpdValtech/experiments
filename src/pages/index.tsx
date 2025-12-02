@@ -1,6 +1,20 @@
-// pages/index.tsx
-import { StackedSlider } from "@/components/StackedSlider";
+/** @jsxImportSource @emotion/react */
+import { useEffect, useState } from "react";
 
-export default function Home() {
-  return <StackedSlider />;
-}
+import StackedSliderDesktop from "@/components/StackedSliderDesktop";
+import StackedSliderMobile from "@/components/StackedSliderMobile";
+
+const StackedSlider = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  return isMobile ? <StackedSliderMobile /> : <StackedSliderDesktop />;
+};
+
+export default StackedSlider;
