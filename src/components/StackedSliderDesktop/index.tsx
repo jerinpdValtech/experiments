@@ -52,13 +52,11 @@ const StackedSliderDesktop = () => {
           layer.scale - 0.04
         })`;
         card.style.opacity = "0.4";
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            card.style.transition =
-              "transform 0.35s ease-out, opacity 0.35s ease-out";
-            card.style.transform = `translateY(${layer.y}px) scale(${layer.scale})`;
-            card.style.opacity = layer.opacity.toString();
-          }, 40);
+        setTimeout(() => {
+          card.style.transition =
+            "transform 0.35s ease-out, opacity 0.35s ease-out";
+          card.style.transform = `translateY(${layer.y}px) scale(${layer.scale})`;
+          card.style.opacity = layer.opacity.toString();
         });
       } else {
         card.style.transition = instant
@@ -117,57 +115,53 @@ const StackedSliderDesktop = () => {
   };
 
   const updateDots = () => {
-  if (!dotsRef.current) return;
+    if (!dotsRef.current) return;
 
-  const activeIndex = Number(cardsRef.current[0]?.dataset.index);
+    const activeIndex = Number(cardsRef.current[0]?.dataset.index);
 
-  Array.from(dotsRef.current.children).forEach((dot, i) => {
-    const d = dot as HTMLDivElement;
+    Array.from(dotsRef.current.children).forEach((dot, i) => {
+      const d = dot as HTMLDivElement;
 
-    if (i === activeIndex) {
-      // ───────────────────────────────
-      // ACTIVE DOT → circle to line
-      // ───────────────────────────────
-      d.classList.add("active");
+      if (i === activeIndex) {
+        // ───────────────────────────────
+        // ACTIVE DOT → circle to line
+        // ───────────────────────────────
+        d.classList.add("active");
 
-      // Stage 1: circle → thin bar
-      d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
-      d.style.height = "2px";
-      d.style.borderRadius = "4px";
-      d.style.background = "white";
-      d.style.border = "none";
-
-      // Stage 2: expand width outward (parallel timing)
-      requestAnimationFrame(() => {
-        d.style.transition = "width 0.35s ease";
-        d.style.width = "32px";
-      });
-
-    } else {
-      // ───────────────────────────────
-      // PREVIOUS ACTIVE DOT → line to circle
-      // reverse animation running SAME TIME
-      // ───────────────────────────────
-      d.classList.remove("active");
-
-      // Stage 1: shrink width
-      d.style.transition = "width 0.35s ease";
-      d.style.width = "8px";
-
-      // Stage 2: AFTER width shrink begins, bring height back
-      requestAnimationFrame(() => {
+        // Stage 1: circle → thin bar
         d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
-        d.style.height = "8px";
-        d.style.borderRadius = "50%";
-        d.style.background = "transparent";
-        d.style.border = "1px solid white";
-      });
-    }
-  });
-};
+        d.style.height = "2px";
+        d.style.borderRadius = "4px";
+        d.style.background = "white";
+        d.style.border = "none";
 
+        // Stage 2: expand width outward (parallel timing)
+        requestAnimationFrame(() => {
+          d.style.transition = "width 0.35s ease";
+          d.style.width = "32px";
+        });
+      } else {
+        // ───────────────────────────────
+        // PREVIOUS ACTIVE DOT → line to circle
+        // reverse animation running SAME TIME
+        // ───────────────────────────────
+        d.classList.remove("active");
 
+        // Stage 1: shrink width
+        d.style.transition = "width 0.35s ease";
+        d.style.width = "8px";
 
+        // Stage 2: AFTER width shrink begins, bring height back
+        requestAnimationFrame(() => {
+          d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
+          d.style.height = "8px";
+          d.style.borderRadius = "50%";
+          d.style.background = "transparent";
+          d.style.border = "1px solid white";
+        });
+      }
+    });
+  };
 
   const disablePointerEvents = (state: boolean) => {
     if (!sliderRef.current || !dotsRef.current) return;
