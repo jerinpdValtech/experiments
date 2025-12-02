@@ -116,7 +116,8 @@ const StackedSliderMobile = () => {
   const top = cardsRef.current[0];
   const second = cardsRef.current[1];
   const third = cardsRef.current[2];
-  const xMove = direction * 500;
+  const screenWidth = window.innerWidth;
+  const xMove = direction * (screenWidth * 1.1); // FIX HERE
   const rot = direction * 10;
   // Animate top card
   top.style.transition = `${SWIPE_ANIM_MS}ms ease`;
