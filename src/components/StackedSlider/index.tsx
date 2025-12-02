@@ -53,12 +53,12 @@ export const StackedSlider = () => {
         })`;
         card.style.opacity = "0.4";
         requestAnimationFrame(() => {
-          setTimeout(() => {
+          // setTimeout(() => {
             card.style.transition =
               "transform 0.35s ease-out, opacity 0.35s ease-out";
             card.style.transform = `translateY(${layer.y}px) scale(${layer.scale})`;
             card.style.opacity = layer.opacity.toString();
-          }, 40);
+          // }, 40);
         });
       } else {
         card.style.transition = instant
@@ -128,39 +128,39 @@ export const StackedSlider = () => {
       // ───────────────────────────────
       // ACTIVE DOT → circle to line
       // ───────────────────────────────
-      d.classList.add("active");
+      // d.classList.add("active");
 
       // Stage 1: circle → thin bar
-      d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
-      d.style.height = "2px";
+      // d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
+      // d.style.height = "2px";
       d.style.borderRadius = "4px";
       d.style.background = "white";
-      d.style.border = "none";
+      // d.style.border = "none";
 
       // Stage 2: expand width outward (parallel timing)
-      requestAnimationFrame(() => {
-        d.style.transition = "width 0.35s ease";
-        d.style.width = "32px";
-      });
+      // requestAnimationFrame(() => {
+      //   d.style.transition = "width 0.35s ease";
+      //   d.style.width = "32px";
+      // });
 
     } else {
       // ───────────────────────────────
       // PREVIOUS ACTIVE DOT → line to circle
       // reverse animation running SAME TIME
       // ───────────────────────────────
-      d.classList.remove("active");
+      // d.classList.remove("active");
 
       // Stage 1: shrink width
-      d.style.transition = "width 0.35s ease";
-      d.style.width = "8px";
+      // d.style.transition = "width 0.35s ease";
+      // d.style.width = "8px";
 
       // Stage 2: AFTER width shrink begins, bring height back
       requestAnimationFrame(() => {
-        d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
-        d.style.height = "8px";
+        // d.style.transition = "height 0.35s ease, border-radius 0.35s ease";
+        // d.style.height = "8px";
         d.style.borderRadius = "50%";
         d.style.background = "transparent";
-        d.style.border = "1px solid white";
+        // d.style.border = "1px solid white";
       });
     }
   });
@@ -380,3 +380,4 @@ export const StackedSlider = () => {
     </div>
   );
 };
+
