@@ -109,49 +109,51 @@ const StackedSliderMobile = () => {
    }
   });
  };
- // --------------------- SWIPE FUNCTION ---------------------
  const swipe = (direction: 1 | -1, steps = 1) => {
   if (isAnimatingRef.current) return;
   isAnimatingRef.current = true;
+
   const top = cardsRef.current[0];
   const second = cardsRef.current[1];
   const third = cardsRef.current[2];
+
+  // 🔥 Remove all swipe animations (for debugging)
+  top.style.transition = "none";
+  second && (second.style.transition = "none");
+  third && (third.style.transition = "none");
+
+  // Instantly move top card off-screen
   const screenWidth = window.innerWidth;
-  const xMove = direction * (screenWidth * 1.1); // FIX HERE
-  const rot = direction * 10;
-  // Animate top card
-  top.style.transition = `${SWIPE_ANIM_MS}ms ease`;
-  top.style.transform = `translateX(${xMove}px) rotate(${rot}deg)`;
+  const xMove = direction * (screenWidth * 1.2);
+  top.style.transform = `translateX(${xMove}px)`;
   top.style.opacity = "0";
-  // Animate second card to top
-  if (second) {
-   second.style.transition = `${SWIPE_ANIM_MS}ms ease`;
-   second.style.transform = `translateY(0px) scale(1)`;
-   second.style.opacity = "1";
-  }
-  // Animate third card up one level
-  if (third) {
-   third.style.transition = `${SWIPE_ANIM_MS}ms ease`;
-   third.style.transform = `translateY(${layers[1].y}px) scale(${layers[1].scale})`;
-   third.style.opacity = layers[1].opacity.toString();
-  }
-  // After animation, reorder cards
+
   setTimeout(() => {
-   for (let i = 0; i < steps; i++) {
-    const removed = cardsRef.current.shift()!;
-    cardsRef.current.push(removed);
-   }
-   // Reset new back card
-   const newBack = cardsRef.current[2];
-   if (newBack) {
-    newBack.style.visibility = "visible";
-    newBack.style.opacity = "0";
-    newBack.style.transform = `translateY(${layers[2].y}px) scale(${layers[2].scale})`;
-   }
-   applyStack(false);
-   isAnimatingRef.current = false;
-  }, SWIPE_ANIM_MS);
- };
+    // 🔥 Reorder without animation
+    for (let i = 0; i < steps; i++) {
+      const removed = cardsRef.current.shift()!;
+      cardsRef.current.push(removed);
+    }
+
+    // Reset back card instantly
+    const newBack = cardsRef.current[2];
+    if (newBack) {
+      newBack.style.visibility = "visible";
+      newBack.style.opacity = "0";
+      newBack.style.transform =
+        `translateY(${layers[2].y}px) scale(${layers[2].scale})`;
+    }
+
+    // 🔥 Reapply stack WITH NO animation
+    applyStack(true);
+
+    // 🔥 Update dots without animation
+    updateDots();
+
+    isAnimatingRef.current = false;
+  }, 10);
+};
+
  // --------------------- DRAG HANDLERS ---------------------
  const onDown = (e: PointerEvent | TouchEvent) => {
   if (isAnimatingRef.current) return;
