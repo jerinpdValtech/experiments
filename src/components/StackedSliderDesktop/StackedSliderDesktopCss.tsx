@@ -1,15 +1,7 @@
-// ----------------------
-// Emotion Styles
-
 import { css } from "@emotion/react";
-import { em } from "framer-motion/client";
-
-
-// ----------------------
 
 export const wrapperContainer = css`
   background: #e7519d;
-
 `;
 
 export const container = css`
@@ -20,7 +12,7 @@ export const container = css`
   max-width: 1100px;
   margin: 0 auto;
   perspective: 1200px;
-  height: 700px;
+  height: 800px;
   justify-content: center;
 `;
 
