@@ -31,7 +31,6 @@ export const sliderWrapper = css`
   position: relative;
   width: 100%;
   height: 450px;
-  overflow: hidden;
 `;
 
 export const card = (bg: string) => css`

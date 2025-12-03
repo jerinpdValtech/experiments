@@ -91,7 +91,7 @@ const StackedSliderMobile = () => {
   Array.from(dotsRef.current.children).forEach((dot, i) => {
    const d = dot as HTMLDivElement;
    if (i === activeIndex) {
-    // d.classList.add("active");
+    d.classList.add("active");
     // d.style.transition = "all 0.35s ease";
     // d.style.width = "32px";
     // d.style.height = "2px";
@@ -99,7 +99,7 @@ const StackedSliderMobile = () => {
     d.style.background = "white";
     // d.style.border = "none";
    } else {
-    // d.classList.remove("active");
+    d.classList.remove("active");
     // d.style.transition = "all 0.35s ease";
     // d.style.width = "8px";
     // d.style.height = "8px";
