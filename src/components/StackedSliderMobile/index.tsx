@@ -60,7 +60,7 @@ const StackedSliderMobile = () => {
    card.style.visibility = layer.opacity === 0 ? "hidden" : "visible";
    card.style.pointerEvents = layer.opacity === 0 ? "none" : "auto";
   });
-  // updateDots();
+  updateDots();
  };
  // --------------------- DOTS ---------------------
  const createDots = () => {
