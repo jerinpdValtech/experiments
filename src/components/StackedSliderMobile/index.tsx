@@ -228,7 +228,7 @@ const StackedSliderMobile = () => {
        <div css={overlay}>
         <span css={tag}>{img.tag}</span>
         <h2 css={title}>{img.title}</h2>
-        <a css={btn} href="#">
+        <a css={btn} onClick={(e) => {e.preventDefault(); console.log('clicked===>')}}>
          Read More
         </a>
        </div>
